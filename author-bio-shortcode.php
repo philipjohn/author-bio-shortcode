@@ -16,7 +16,7 @@ License: GPL2
  * 
  */
 function pj_abs_install(){
-	if (version_compare(get_bloginfo('version'), '3.2.1', '<')){
+	if (version_compare(get_bloginfo('version'), '3.5', '<')){
 		die("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1");
 	}
 }
