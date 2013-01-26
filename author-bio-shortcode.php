@@ -3,7 +3,7 @@
 Plugin Name: Author Bio Shortcode
 Plugin URI: http://philipjohn.co.uk/category/plugins/author-bio-shortcode/
 Description: Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
-Version: 2.0
+Version: 2.1
 Author: Philip John
 Author URI: http://philipjohn.co.uk
 License: GPL2
@@ -36,6 +36,12 @@ function pj_abs_shortcode($atts){
 		'email' => NULL,
 		'avatar' => NULL,
 		'avatar_size' => 96,
+		'name' => NULL,
+		'name_container' => 'h3',
+		'name_class' => 'name',
+		'name_pre' => '',
+		'name_post' => '',
+		'name_link' => NULL,
 		'container_element' => 'div',
 		'container_class' => 'author_bio_shortcode',
 		'avatar_container_element' => 'div',
@@ -50,7 +56,7 @@ function pj_abs_shortcode($atts){
 	require_once(ABSPATH . WPINC . '/ms-functions.php');
 
 	// Let's see if we want the current author, or someone else
-	if (!empty($id)){ // We're going on ID
+	if (!empty($id) && is_int($id)){ // We're going on ID
 		$the_author_id = $id;
 	}
 	else if (!empty($username)){ // We're going on username
@@ -75,6 +81,14 @@ function pj_abs_shortcode($atts){
 		$img .= "</$avatar_container_element>";
 	}
 	
+	// Construct the name bit
+	if (!empty($name)){
+		$name1 = $name_pre.get_the_author_meta('display_name', $the_author_id).$name_post;
+		$nameh = "<$name_container class=\"$name_class\">";
+		$nameh .= (empty($name_link)) ? $name1 : '<a href="'.get_the_author_meta('user_url', $the_author_id).'">'.$name1.'</a>';
+		$nameh .= "</$name_container>";
+	}
+	
 	// construct the bio text bit
 	$bio = '<'.$bio_container_element.' class="'.$bio_container_class.'">';
 	$bio .= ($bio_paragraph) ? '<p>' : '';
@@ -83,7 +97,7 @@ function pj_abs_shortcode($atts){
 	$bio .= "</$bio_container_element>";
 	
 	$all_aboard = '<'.$container_element.' class="'.$container_class.'">';
-	$all_aboard .= $img . $bio;
+	$all_aboard .= $img . $nameh . $bio;
 	$all_aboard .= "</$container_element>";
 	
 	return $all_aboard;
