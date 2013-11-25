@@ -3,7 +3,7 @@ Contributors: philipjohn
 Donate link: http://philipjohn.co.uk/
 Tags: author, bio, biography, user description, author description, shortcode, author-bio-shortcode
 Requires at least: 3.5
-Tested up to: 3.5.1
+Tested up to: 3.7.1
 Stable tag: trunk
 
 Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
@@ -101,3 +101,9 @@ This example shows how to remove the P tag from around the bio text;
 
 = 2.1 =
 * Added name parameters 
+
+= 2.2 =
+* Fix for deprecated function get_user_id_from_string()
+
+= 2.3 =
+* Versioning mishap (Phil can't count)

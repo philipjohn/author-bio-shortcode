@@ -3,11 +3,25 @@
 Plugin Name: Author Bio Shortcode
 Plugin URI: http://philipjohn.co.uk/category/plugins/author-bio-shortcode/
 Description: Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
-Version: 2.1
+Version: 2.4
 Author: Philip John
 Author URI: http://philipjohn.co.uk
 License: GPL2
+Text Domain: author-bio-shortcode
 */
+
+/*
+ * The textdomain
+ */
+$pj_abs_td = 'author-bio-shortcode';
+
+/**
+ * Load the textdomain
+ */
+function pj_abs_load_textdomain(){
+	load_plugin_textdomain($pj_asb_td, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+}
+add_action('init', 'pj_abs_load_textdomain');
 
 /**
  * Installs the plugin
@@ -17,7 +31,7 @@ License: GPL2
  */
 function pj_abs_install(){
 	if (version_compare(get_bloginfo('version'), '3.5', '<')){
-		die("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1");
+		die(__("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1", $pj_abs_td));
 	}
 }
 register_activation_hook( __FILE__, 'pj_abs_install');
@@ -51,19 +65,21 @@ function pj_abs_shortcode($atts){
 		'bio_paragraph' => true
 		
 	), $atts));
-
-	// We'll need this for using get_user_id_from_string()
-	require_once(ABSPATH . WPINC . '/ms-functions.php');
+	
+	// Make sure that, if set, the ID is an integer
+	$id = (isset($id)) ? (int) $id : false;
 
 	// Let's see if we want the current author, or someone else
 	if (!empty($id) && is_int($id)){ // We're going on ID
 		$the_author_id = $id;
 	}
 	else if (!empty($username)){ // We're going on username
-		$the_author_id = get_user_id_from_string($username);
+		$the_author_id = get_user_by('login', $username);
+		$the_author_id = $the_author_id->ID;
 	}
 	else if (!empty($email)){ // We're going on e-mail address
-		$the_author_id = get_user_id_from_string($email);
+		$the_author_id = get_user_by('email', $email);
+		$the_author_id = $the_author_id->ID;
 	}
 	else { // Just use the current user
 		global $post; // So we can grab the author ID of the current post
