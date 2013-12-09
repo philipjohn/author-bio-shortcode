@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Author Bio Shortcode ===
 Contributors: philipjohn
 Donate link: http://philipjohn.co.uk/
 Tags: author, bio, biography, user description, author description, shortcode, author-bio-shortcode
