@@ -3,7 +3,7 @@
 Plugin Name: Author Bio Shortcode
 Plugin URI: http://philipjohn.co.uk/category/plugins/author-bio-shortcode/
 Description: Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
-Version: 2.4.1
+Version: 2.5
 Author: Philip John
 Author URI: http://philipjohn.co.uk
 License: GPL2
@@ -13,13 +13,13 @@ Text Domain: author-bio-shortcode
 /*
  * The textdomain
  */
-$pj_abs_td = 'author-bio-shortcode';
+define( 'PJ_ABS_TD', 'author-bio-shortcode');
 
 /**
  * Load the textdomain
  */
 function pj_abs_load_textdomain(){
-	load_plugin_textdomain($pj_abs_td, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+	load_plugin_textdomain(PJ_ABS_TD, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 }
 add_action('init', 'pj_abs_load_textdomain');
 
@@ -31,7 +31,7 @@ add_action('init', 'pj_abs_load_textdomain');
  */
 function pj_abs_install(){
 	if (version_compare(get_bloginfo('version'), '3.5', '<')){
-		die(__("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1", $pj_abs_td));
+		die(__("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1", PJ_ABS_TD));
 	}
 }
 register_activation_hook( __FILE__, 'pj_abs_install');
