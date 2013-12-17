@@ -107,3 +107,7 @@ This example shows how to remove the P tag from around the bio text;
 
 = 2.3 =
 * Versioning mishap (Phil can't count)
+
+= 2.5.1 =
+* Where did v2.4 go?
+* i18n fixes
