@@ -3,7 +3,7 @@
 Plugin Name: Author Bio Shortcode
 Plugin URI: http://philipjohn.co.uk/category/plugins/author-bio-shortcode/
 Description: Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
-Version: 2.5.1
+Version: 2.5.2
 Author: Philip John
 Author URI: http://philipjohn.co.uk
 License: GPL2
@@ -76,10 +76,13 @@ function pj_abs_shortcode($atts){
 		$the_author_id = get_user_by('email', $email);
 		$the_author_id = $the_author_id->ID;
 	}
-	else { // Just use the current user
+	else { // Just use the author
 		global $post; // So we can grab the author ID of the current post
 		$the_author_id = $post->post_author;
 	}
+	
+	// Make sure the ID is an integer
+	$the_author_id = intval($the_author_id);
 	
 	// Shall we add the user's avatar as well?
 	if (!empty($avatar)){
@@ -108,7 +111,9 @@ function pj_abs_shortcode($atts){
 	$bio .= "</$bio_container_element>";
 	
 	$all_aboard = '<'.$container_element.' class="'.$container_class.'">';
-	$all_aboard .= $img . $nameh . $bio;
+	if (!empty($avatar)) $all_aboard .= $img;
+	if (!empty($name)) $all_aboard .= $nameh;
+	$all_aboard .= $bio;
 	$all_aboard .= "</$container_element>";
 	
 	return $all_aboard;

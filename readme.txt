@@ -111,3 +111,7 @@ This example shows how to remove the P tag from around the bio text;
 = 2.5.1 =
 * Where did v2.4 go?
 * i18n fixes
+
+= 2.5.2 =
+* PHP Notice fixes
+* Made sure Author ID is always integer
