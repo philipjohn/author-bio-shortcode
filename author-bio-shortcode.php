@@ -3,7 +3,7 @@
 Plugin Name: Author Bio Shortcode
 Plugin URI: http://philipjohn.co.uk/category/plugins/author-bio-shortcode/
 Description: Provides the [author_bio] shortcode for embedding the bio of an author anywhere in the post/page content.
-Version: 2.5.2
+Version: 2.5.3
 Author: Philip John
 Author URI: http://philipjohn.co.uk
 License: GPL2
@@ -14,7 +14,7 @@ Text Domain: author-bio-shortcode
  * Load the textdomain
  */
 function pj_abs_load_textdomain(){
-	load_plugin_textdomain(PJ_ABS_TD, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+	load_plugin_textdomain( 'author-bio-shortcode', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 }
 add_action('init', 'pj_abs_load_textdomain');
 
@@ -26,7 +26,7 @@ add_action('init', 'pj_abs_load_textdomain');
  */
 function pj_abs_install(){
 	if (version_compare(get_bloginfo('version'), '3.5', '<')){
-		die(__("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.2.1", 'author-bio-shortcode'));
+		die(__("This plugin is not compatible with your version of WordPress. Please upgrade to at least v3.5", 'author-bio-shortcode'));
 	}
 }
 register_activation_hook( __FILE__, 'pj_abs_install');
@@ -70,11 +70,17 @@ function pj_abs_shortcode($atts){
 	}
 	else if (!empty($username)){ // We're going on username
 		$the_author_id = get_user_by('login', $username);
-		$the_author_id = $the_author_id->ID;
+
+		if ( $the_author_id )
+			$the_author_id = $the_author_id->ID;
+
 	}
 	else if (!empty($email)){ // We're going on e-mail address
 		$the_author_id = get_user_by('email', $email);
-		$the_author_id = $the_author_id->ID;
+
+		if ( $the_author_id )
+			$the_author_id = $the_author_id->ID;
+
 	}
 	else { // Just use the author
 		global $post; // So we can grab the author ID of the current post
